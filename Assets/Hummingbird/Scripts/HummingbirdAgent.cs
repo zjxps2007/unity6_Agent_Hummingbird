@@ -390,6 +390,7 @@ public class HummingbirdAgent : Agent
         // Check if agent is colliding with nectar
         if (collider.CompareTag("nectar"))
         {
+            Debug.Log("Nectar collision");
             Vector3 closestPointToBeakTip = collider.ClosestPoint(beakTip.position);
 
             // Check if the closest collision point is close to the beak tip

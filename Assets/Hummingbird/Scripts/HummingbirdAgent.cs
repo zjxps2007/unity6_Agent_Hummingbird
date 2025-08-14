@@ -133,7 +133,6 @@ public class HummingbirdAgent : Agent
     // 수정된 코드
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        Debug.Log("OnActionReceived");
         if (frozen) return;
         
         var vectorAction = actionBuffers.ContinuousActions;
@@ -239,7 +238,6 @@ public class HummingbirdAgent : Agent
     // 수정후 코드
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        Debug.Log("Heuristic");
         var continuousActions = actionsOut.ContinuousActions;
         
         // Create placeholders for all movement/turning

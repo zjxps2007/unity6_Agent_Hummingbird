@@ -5,7 +5,7 @@ public class Flower : MonoBehaviour
     [Tooltip("The color when the flower is full")]
     public Color fullFlowerColor = new Color(1f, 0f, .3f);
     
-    [Tooltip("The color when the flower is full")]
+    [Tooltip("The color when the flower is empty")]
     public Color emptyFlowerColor = new Color(.5f, 0f, 1f);
     
     [HideInInspector]

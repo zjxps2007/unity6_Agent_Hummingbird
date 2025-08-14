@@ -93,44 +93,7 @@ public class HummingbirdAgent : Agent
         // Recalculate the nearest flower now that the agent has moved
         UpdateNearestFlower();
     }
-    
-    /* 기존 코드
-    public override void OnActionReceived(float[] vectorAction)
-    {
-        // Don't take actions if frozen
-        if (frozen) return;
-
-        // Calculate movement vector
-        Vector3 move = new Vector3(vectorAction[0], vectorAction[1], vectorAction[2]);
-
-        // Add force in the direction of the move vector
-        rigidbody.AddForce(move * moveForce);
-
-        // Get the current rotation
-        Vector3 rotationVector = transform.rotation.eulerAngles;
-
-        // Calculate pitch and yaw rotation
-        float pitchChange = vectorAction[3];
-        float yawChange = vectorAction[4];
-
-        // Calculate smooth rotation changes
-        smoothPitchChange = Mathf.MoveTowards(smoothPitchChange, pitchChange, 2f * Time.fixedDeltaTime);
-        smoothYawChange = Mathf.MoveTowards(smoothYawChange, yawChange, 2f * Time.fixedDeltaTime);
-
-        // Calculate new pitch and yaw based on smoothed values
-        // Clamp  pitch to avoid flipping upside down
-        float pitch = rotationVector.x + smoothPitchChange * Time.fixedDeltaTime * pitchSpeed;
-        if (pitch > 180f) pitch -= 360f;
-        pitch = Mathf.Clamp(pitch, -MaxPitchAngle, MaxPitchAngle);
-
-        float yaw = rotationVector.y + smoothYawChange * Time.fixedDeltaTime * yawSpeed;
-
-        // Apply the new rotation
-        transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
-    }
-    */
-
-    // 수정된 코드
+   
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         if (frozen) return;
@@ -190,52 +153,6 @@ public class HummingbirdAgent : Agent
         // 10 total observations
     }
     
-    /* 기존 수정전 코드
-    public override void Heuristic(float[] actionsOut)
-    {
-        // Create placeholders for all movement/turning
-        Vector3 forward = Vector3.zero;
-        Vector3 left = Vector3.zero;
-        Vector3 up = Vector3.zero;
-        float pitch = 0f;
-        float yaw = 0f;
-    
-        // Convert keyboard inputs to movement and turning
-        // All values should be between -1 and +1
-    
-        // Forward/backward
-        if (Input.GetKey(KeyCode.W)) forward = transform.forward;
-        else if (Input.GetKey(KeyCode.S)) forward = -transform.forward;
-    
-        // Left/right
-        if (Input.GetKey(KeyCode.A)) left = -transform.right;
-        else if (Input.GetKey(KeyCode.D)) left = transform.right;
-    
-        // Up/down
-        if (Input.GetKey(KeyCode.E)) up = transform.up;
-        else if (Input.GetKey(KeyCode.C)) up = -transform.up;
-    
-        // Pitch up/down
-        if (Input.GetKey(KeyCode.UpArrow)) pitch = 1f;
-        else if (Input.GetKey(KeyCode.DownArrow)) pitch = -1f;
-    
-        // Turn left/right
-        if (Input.GetKey(KeyCode.LeftArrow)) yaw = -1f;
-        else if (Input.GetKey(KeyCode.RightArrow)) yaw = 1f;
-    
-        // Combine the movement vectors and normalize
-        Vector3 combined = (forward + left + up).normalized;
-    
-        // Add the 3 movement values, pitch, and yaw to the actionsOut array
-        actionsOut[0] = combined.x;
-        actionsOut[1] = combined.y;
-        actionsOut[2] = combined.z;
-        actionsOut[3] = pitch;
-        actionsOut[4] = yaw;
-    }
-    */
-    
-    // 수정후 코드
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var continuousActions = actionsOut.ContinuousActions;
@@ -390,7 +307,6 @@ public class HummingbirdAgent : Agent
         // Check if agent is colliding with nectar
         if (collider.CompareTag("nectar"))
         {
-            Debug.Log("Nectar collision");
             Vector3 closestPointToBeakTip = collider.ClosestPoint(beakTip.position);
 
             // Check if the closest collision point is close to the beak tip

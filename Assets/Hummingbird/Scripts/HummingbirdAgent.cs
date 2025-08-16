@@ -297,7 +297,7 @@ public class HummingbirdAgent : Agent
         }
     }
     
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         TriggerEnterOrStay(other);
     }
